@@ -1,0 +1,11 @@
+/* popup */
+
+.PastryPopUp .leaflet-popup-tip,
+.PastryPopUp .leaflet-popup-content-wrapper {
+    background: #f88479;
+    color: #e6eee8;
+    border: 5px dotted #208AAE
+}
+.PastryPopUp a.leaflet-popup-close-button {
+    color: transparent;
+}
