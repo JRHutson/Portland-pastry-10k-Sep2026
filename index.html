@@ -56,6 +56,10 @@
 
 <div id="map"></div>
 
+<script src="../leaflet-mapbox-gl.js"></script>
+
+<import "mapbox-gl-leaflet";></import>
+	
 <script>
     let baseMap = "https://api.mapbox.com/styles/v1/jrhutson/cmnqev8ht000h01rec5ch9k7j/tiles/256/{z}/{x}/{y}@2x?access_token=";
     let baseMapURL = baseMap.concat(myToken);
@@ -76,25 +80,16 @@
     "opacity": 0.65
     };
 
-    var testroute = [
-        [ -122.66, 45.53 ],
-        [ -122.66, 45.53 ], 
-        [ -122.65, 45.53 ], 
-        [ -122.65, 45.54 ]
-    ];
+	var OptionsLocation = {
+        "flyTo" : "True",
+        "showCompass" : "True",
+        "strings": {
+            "title": ""
+        }
+    };
 
-    var polyline = L.polyline([
-        [ -122.66, 45.53 ],
-        [ -122.66, 45.53 ], 
-        [ -122.65, 45.53 ], 
-        [ -122.65, 45.54 ]
-    ], {color: 'blue'}).addTo(map);
-    // var routeline = L.geoJson(route, {style: routeStyle}).addTo(map);
-    // L.geoJson(route).addTo(map);
 
-    L.polylineDecorator(testroute, {
-    patterns: [{offset: 0, repeat: 20, symbol: L.Symbol.arrowHead({pixelSize: 10})}]
-    }).addTo(map);
+    L.geoJson(route, {style: routeStyle}).addTo(map);
     
     function getinfo(input) {
         if (input.properties.Info == 'null'){
@@ -112,24 +107,25 @@
         }
     }
 
-    // var vendorsLayer = L.geoJson(vendors, {
-    //     style:{
-    //         fillColor:"#A61C3C",
-    //         color: "#D3F6DB",
-    //         weight: 3,
-    //         opacity: .5,
-    //         fillOpacity: 1
-    //         },
-    //     pointToLayer: function(feature, latlon) {
-    //         label = String(feature.properties.Name)
-    //         content = String("<h2>"+feature.properties.Name+"</h2>"+getaddress(feature)+"<br><a href=" +feature.properties.Website+">Website</a>"+"<br><a href="+feature.properties.Instagram+">Instagram</a><br>"+getinfo(feature))
-    //     return L.circleMarker(latlon, 3).bindPopup(content, {'className' : 'PastryPopUp'})
-    //     .bindTooltip(label, {className: 'PastryToolTip', permanent: true, opacity: 0.8, offset: [0,30], direction: 'center'});
-    //     }
-    // }).addTo(map);
+    var vendorsLayer = L.geoJson(vendors, {
+        style:{
+            fillColor:"#A61C3C",
+            color: "#D3F6DB",
+            weight: 3,
+            opacity: .5,
+            fillOpacity: 1
+            },
+        pointToLayer: function(feature, latlon) {
+            label = String(feature.properties.Name)
+            content = String("<h2>"+feature.properties.Name+"</h2>"+getaddress(feature)+"<br><a href=" +feature.properties.Website+">Website</a>"+"<br><a href="+feature.properties.Instagram+">Instagram</a><br>"+getinfo(feature))
+        return L.circleMarker(latlon, 3).bindPopup(content, {'className' : 'PastryPopUp'})
+        .bindTooltip(label, {className: 'PastryToolTip', permanent: true, opacity: 0.8, offset: [0,30], direction: 'center'});
+        }
+    }).addTo(map);
 
+    L.control.locate(OptionsLocation).addTo(map);
     
-    // map.fitBounds(vendorsLayer.getBounds().pad(0.5));
+    map.fitBounds(vendorsLayer.getBounds().pad(0.5));
 
     
 </script>
